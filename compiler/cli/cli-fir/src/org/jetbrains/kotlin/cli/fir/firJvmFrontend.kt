@@ -216,13 +216,7 @@ private fun example(args: List<String>, outStream: PrintStream) {
         val frontendBuilder = session.createStage(FirJvmFrontendBuilder::class) as FirJvmFrontendBuilder
         val frontend = frontendBuilder {
 
-            configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, collector)
-            messageCollector = collector
-
-            val services: Services = Services.EMPTY
-
-            configuration.setupCommonArguments(arguments)
-            configuration.setupJvmSpecificArguments(arguments)
+            configureDefaultJvmFirFrontend(collector, arguments, paths)
 
             environment = KotlinCoreEnvironment.createForProduction(
                 rootDisposable, configuration, EnvironmentConfigFiles.JVM_CONFIG_FILES
@@ -230,24 +224,6 @@ private fun example(args: List<String>, outStream: PrintStream) {
                 project = it.project
                 packagePartProvider = it.createPackagePartProvider(ProjectScope.getLibrariesScope(project!!))
             }
-
-            configuration.putIfNotNull(CLIConfigurationKeys.REPEAT_COMPILE_MODULES, arguments.repeatCompileModules?.toIntOrNull())
-            configuration.put(CLIConfigurationKeys.PHASE_CONFIG, createPhaseConfig(jvmPhases, arguments, collector))
-
-            if (!configuration.configureJdkHome(arguments)) error("") //ExitCode.COMPILATION_ERROR
-
-            configuration.put(JVMConfigurationKeys.DISABLE_STANDARD_SCRIPT_DEFINITION, arguments.disableStandardScript)
-
-            val pluginLoadResult = loadPlugins(paths, arguments, configuration)
-            if (pluginLoadResult != ExitCode.OK) error("") //return pluginLoadResult
-
-            val moduleName = arguments.moduleName ?: JvmProtoBufUtil.DEFAULT_MODULE_NAME
-            configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName)
-
-            configuration.configureExplicitContentRoots(arguments)
-            configuration.configureStandardLibs(paths, arguments)
-            configuration.configureAdvancedJvmOptions(arguments)
-            configuration.configureKlibPaths(arguments)
 
         }.build()
 
@@ -279,6 +255,38 @@ private fun example(args: List<String>, outStream: PrintStream) {
         rootDisposable.dispose()
         session.close()
     }
+}
+
+internal fun FirJvmFrontendBuilder.configureDefaultJvmFirFrontend(
+    collector: GroupingMessageCollector,
+    arguments: K2JVMCompilerArguments,
+    paths: KotlinPaths?
+) {
+    configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, collector)
+    messageCollector = collector
+
+    val services: Services = Services.EMPTY
+
+    configuration.setupCommonArguments(arguments)
+    configuration.setupJvmSpecificArguments(arguments)
+
+    configuration.putIfNotNull(CLIConfigurationKeys.REPEAT_COMPILE_MODULES, arguments.repeatCompileModules?.toIntOrNull())
+    configuration.put(CLIConfigurationKeys.PHASE_CONFIG, createPhaseConfig(jvmPhases, arguments, collector))
+
+    if (!configuration.configureJdkHome(arguments)) error("") //ExitCode.COMPILATION_ERROR
+
+    configuration.put(JVMConfigurationKeys.DISABLE_STANDARD_SCRIPT_DEFINITION, arguments.disableStandardScript)
+
+    val pluginLoadResult = loadPlugins(paths, arguments, configuration)
+    if (pluginLoadResult != ExitCode.OK) error("") //return pluginLoadResult
+
+    val moduleName = arguments.moduleName ?: JvmProtoBufUtil.DEFAULT_MODULE_NAME
+    configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName)
+
+    configuration.configureExplicitContentRoots(arguments)
+    configuration.configureStandardLibs(paths, arguments)
+    configuration.configureAdvancedJvmOptions(arguments)
+    configuration.configureKlibPaths(arguments)
 }
 
 private fun <A : CommonCompilerArguments> loadPlugins(paths: KotlinPaths?, arguments: A, configuration: CompilerConfiguration): ExitCode {
