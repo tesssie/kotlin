@@ -88,11 +88,9 @@ abstract class AbstractJvmLookupTrackerTest : AbstractLookupTrackerTest() {
             friendDirs = emptyList()
         )
 
-        val args = K2JVMCompilerArguments().apply {
-            disableDefaultScriptingPlugin = true
-            buildFile = moduleFile.canonicalPath
-            reportOutputFiles = true
-        }
+        val args = K2JVMCompilerArguments()
+        configureArguments(args, moduleFile)
+
         val argsArray = ArgumentUtils.convertArgumentsToStringList(args).toTypedArray()
 
         try {
@@ -107,6 +105,22 @@ abstract class AbstractJvmLookupTrackerTest : AbstractLookupTrackerTest() {
         finally {
             moduleFile.delete()
         }
+    }
+
+    protected open fun configureArguments(arguments: K2JVMCompilerArguments, moduleFile: File) {
+        arguments.apply {
+            disableDefaultScriptingPlugin = true
+            buildFile = moduleFile.canonicalPath
+            reportOutputFiles = true
+        }
+    }
+}
+
+abstract class AbstractFirJvmLookupTrackerTest : AbstractJvmLookupTrackerTest() {
+    override fun configureArguments(arguments: K2JVMCompilerArguments, moduleFile: File) {
+        super.configureArguments(arguments, moduleFile)
+        arguments.useIR = true
+        arguments.useFir = true
     }
 }
 
