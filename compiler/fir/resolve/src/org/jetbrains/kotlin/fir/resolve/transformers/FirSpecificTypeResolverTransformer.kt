@@ -56,9 +56,7 @@ class FirSpecificTypeResolverTransformer(
 
     @OptIn(PrivateForInline::class)
     override fun transformTypeRef(typeRef: FirTypeRef, data: FirScope): CompositeTransformResult<FirTypeRef> {
-        currentFile?.let {
-            session.firLookupTracker?.recordLookup(typeRef, it.source!!, data)
-        }
+        session.firLookupTracker?.recordLookup(typeRef, currentFile?.source, data)
         typeRef.transformChildren(this, data)
         return transformType(typeRef, typeResolver.resolveType(typeRef, data, areBareTypesAllowed))
     }
