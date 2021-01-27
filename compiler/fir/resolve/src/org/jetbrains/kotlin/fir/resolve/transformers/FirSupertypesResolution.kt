@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.fir.extensions.predicateBasedProvider
 import org.jetbrains.kotlin.fir.extensions.supertypeGenerators
 import org.jetbrains.kotlin.fir.firLookupTracker
 import org.jetbrains.kotlin.fir.resolve.*
+import org.jetbrains.kotlin.fir.resolve.dfa.cfg.isLocalClassOrAnonymousObject
 import org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.LocalClassesNavigationInfo
 import org.jetbrains.kotlin.fir.scopes.FirCompositeScope
 import org.jetbrains.kotlin.fir.scopes.FirScope
@@ -285,7 +286,8 @@ private class FirSupertypeResolverVisitor(
         return resolveSpecificClassLikeSupertypes(classLikeDeclaration) { transformer, scope ->
             session.firLookupTracker?.recordLookup(
                 supertypeRefs,
-                session.firProvider.getFirClassifierContainerFile(classLikeDeclaration.symbol).source!!,
+                if (classLikeDeclaration.isLocalClassOrAnonymousObject()) classLikeDeclaration.source
+                else session.firProvider.getFirClassifierContainerFile(classLikeDeclaration.symbol).source!!,
                 scope
             )
             ArrayList(supertypeRefs).mapTo(mutableListOf()) {
