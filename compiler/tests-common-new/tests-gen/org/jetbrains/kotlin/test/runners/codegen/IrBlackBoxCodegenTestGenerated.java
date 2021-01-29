@@ -18456,9 +18456,15 @@ public class IrBlackBoxCodegenTestGenerated extends AbstractIrBlackBoxCodegenTes
             }
 
             @Test
-            @TestMetadata("bigArityFun.kt")
-            public void testBigArityFun() throws Exception {
-                runTest("compiler/testData/codegen/box/invokedynamic/lambdas/bigArityFun.kt");
+            @TestMetadata("bigArityExtLambda.kt")
+            public void testBigArityExtLambda() throws Exception {
+                runTest("compiler/testData/codegen/box/invokedynamic/lambdas/bigArityExtLambda.kt");
+            }
+
+            @Test
+            @TestMetadata("bigArityLambda.kt")
+            public void testBigArityLambda() throws Exception {
+                runTest("compiler/testData/codegen/box/invokedynamic/lambdas/bigArityLambda.kt");
             }
 
             @Test
