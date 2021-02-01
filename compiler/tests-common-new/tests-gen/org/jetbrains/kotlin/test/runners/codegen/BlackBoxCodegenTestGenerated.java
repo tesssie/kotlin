@@ -18498,6 +18498,18 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
             }
 
             @Test
+            @TestMetadata("lambdaSerializable.kt")
+            public void testLambdaSerializable() throws Exception {
+                runTest("compiler/testData/codegen/box/invokedynamic/lambdas/lambdaSerializable.kt");
+            }
+
+            @Test
+            @TestMetadata("lambdaToSting.kt")
+            public void testLambdaToSting() throws Exception {
+                runTest("compiler/testData/codegen/box/invokedynamic/lambdas/lambdaToSting.kt");
+            }
+
+            @Test
             @TestMetadata("nestedIndyLambdas.kt")
             public void testNestedIndyLambdas() throws Exception {
                 runTest("compiler/testData/codegen/box/invokedynamic/lambdas/nestedIndyLambdas.kt");
@@ -18525,40 +18537,6 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
             @TestMetadata("voidReturnType.kt")
             public void testVoidReturnType() throws Exception {
                 runTest("compiler/testData/codegen/box/invokedynamic/lambdas/voidReturnType.kt");
-            }
-
-            @Nested
-            @TestMetadata("compiler/testData/codegen/box/invokedynamic/lambdas/inline")
-            @TestDataPath("$PROJECT_ROOT")
-            public class Inline extends AbstractBlackBoxCodegenTest {
-                @Test
-                public void testAllFilesPresentInInline() throws Exception {
-                    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/box/invokedynamic/lambdas/inline"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM, true);
-                }
-
-                @Test
-                @TestMetadata("crossinlineLambda1.kt")
-                public void testCrossinlineLambda1() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/lambdas/inline/crossinlineLambda1.kt");
-                }
-
-                @Test
-                @TestMetadata("crossinlineLambda2.kt")
-                public void testCrossinlineLambda2() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/lambdas/inline/crossinlineLambda2.kt");
-                }
-
-                @Test
-                @TestMetadata("inlineFunInDifferentPackage.kt")
-                public void testInlineFunInDifferentPackage() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/lambdas/inline/inlineFunInDifferentPackage.kt");
-                }
-
-                @Test
-                @TestMetadata("inlineLambda1.kt")
-                public void testInlineLambda1() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/lambdas/inline/inlineLambda1.kt");
-                }
             }
 
             @Nested
@@ -18747,40 +18725,6 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
             @TestMetadata("voidReturnTypeAsGeneric.kt")
             public void testVoidReturnTypeAsGeneric() throws Exception {
                 runTest("compiler/testData/codegen/box/invokedynamic/sam/voidReturnTypeAsGeneric.kt");
-            }
-
-            @Nested
-            @TestMetadata("compiler/testData/codegen/box/invokedynamic/sam/inline")
-            @TestDataPath("$PROJECT_ROOT")
-            public class Inline extends AbstractBlackBoxCodegenTest {
-                @Test
-                public void testAllFilesPresentInInline() throws Exception {
-                    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/box/invokedynamic/sam/inline"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM, true);
-                }
-
-                @Test
-                @TestMetadata("crossinlineLambda1.kt")
-                public void testCrossinlineLambda1() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/sam/inline/crossinlineLambda1.kt");
-                }
-
-                @Test
-                @TestMetadata("crossinlineLambda2.kt")
-                public void testCrossinlineLambda2() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/sam/inline/crossinlineLambda2.kt");
-                }
-
-                @Test
-                @TestMetadata("inlineFunInDifferentPackage.kt")
-                public void testInlineFunInDifferentPackage() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/sam/inline/inlineFunInDifferentPackage.kt");
-                }
-
-                @Test
-                @TestMetadata("inlineLambda1.kt")
-                public void testInlineLambda1() throws Exception {
-                    runTest("compiler/testData/codegen/box/invokedynamic/sam/inline/inlineLambda1.kt");
-                }
             }
 
             @Nested

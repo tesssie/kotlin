@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.backend.jvm.JvmBackendContext
 import org.jetbrains.kotlin.backend.jvm.JvmLoweredDeclarationOrigin
 import org.jetbrains.kotlin.backend.jvm.ir.*
 import org.jetbrains.kotlin.backend.jvm.lower.inlineclasses.InlineClassAbi
+import org.jetbrains.kotlin.builtins.functions.BuiltInFunctionArity
 import org.jetbrains.kotlin.config.JvmClosureGenerationScheme
 import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.descriptors.Modality
@@ -171,7 +172,7 @@ internal class FunctionReferenceLowering(private val context: JvmBackendContext)
         if (plainLambda) {
             var parametersCount = target.valueParameters.size
             if (target.extensionReceiverParameter != null) ++parametersCount
-            if (parametersCount > 22)
+            if (parametersCount >= BuiltInFunctionArity.BIG_ARITY)
                 return false
         }
 

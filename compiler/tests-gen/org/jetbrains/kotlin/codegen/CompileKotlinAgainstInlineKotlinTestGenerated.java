@@ -2158,6 +2158,85 @@ public class CompileKotlinAgainstInlineKotlinTestGenerated extends AbstractCompi
         }
     }
 
+    @TestMetadata("compiler/testData/codegen/boxInline/invokedynamic")
+    @TestDataPath("$PROJECT_ROOT")
+    @RunWith(JUnit3RunnerWithInners.class)
+    public static class Invokedynamic extends AbstractCompileKotlinAgainstInlineKotlinTest {
+        private void runTest(String testDataFilePath) throws Exception {
+            KotlinTestUtils.runTestWithCustomIgnoreDirective(this::doTest, TargetBackend.JVM, testDataFilePath, "// IGNORE_BACKEND_MULTI_MODULE: ");
+        }
+
+        public void testAllFilesPresentInInvokedynamic() throws Exception {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/boxInline/invokedynamic"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM, true);
+        }
+
+        @TestMetadata("compiler/testData/codegen/boxInline/invokedynamic/lambdas")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Lambdas extends AbstractCompileKotlinAgainstInlineKotlinTest {
+            private void runTest(String testDataFilePath) throws Exception {
+                KotlinTestUtils.runTestWithCustomIgnoreDirective(this::doTest, TargetBackend.JVM, testDataFilePath, "// IGNORE_BACKEND_MULTI_MODULE: ");
+            }
+
+            public void testAllFilesPresentInLambdas() throws Exception {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/boxInline/invokedynamic/lambdas"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM, true);
+            }
+
+            @TestMetadata("crossinlineLambda1.kt")
+            public void testCrossinlineLambda1() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/lambdas/crossinlineLambda1.kt");
+            }
+
+            @TestMetadata("crossinlineLambda2.kt")
+            public void testCrossinlineLambda2() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/lambdas/crossinlineLambda2.kt");
+            }
+
+            @TestMetadata("inlineFunInDifferentPackage.kt")
+            public void testInlineFunInDifferentPackage() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/lambdas/inlineFunInDifferentPackage.kt");
+            }
+
+            @TestMetadata("inlineLambda1.kt")
+            public void testInlineLambda1() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/lambdas/inlineLambda1.kt");
+            }
+        }
+
+        @TestMetadata("compiler/testData/codegen/boxInline/invokedynamic/sam")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Sam extends AbstractCompileKotlinAgainstInlineKotlinTest {
+            private void runTest(String testDataFilePath) throws Exception {
+                KotlinTestUtils.runTestWithCustomIgnoreDirective(this::doTest, TargetBackend.JVM, testDataFilePath, "// IGNORE_BACKEND_MULTI_MODULE: ");
+            }
+
+            public void testAllFilesPresentInSam() throws Exception {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/boxInline/invokedynamic/sam"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM, true);
+            }
+
+            @TestMetadata("crossinlineLambda1.kt")
+            public void testCrossinlineLambda1() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/sam/crossinlineLambda1.kt");
+            }
+
+            @TestMetadata("crossinlineLambda2.kt")
+            public void testCrossinlineLambda2() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/sam/crossinlineLambda2.kt");
+            }
+
+            @TestMetadata("inlineFunInDifferentPackage.kt")
+            public void testInlineFunInDifferentPackage() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/sam/inlineFunInDifferentPackage.kt");
+            }
+
+            @TestMetadata("inlineLambda1.kt")
+            public void testInlineLambda1() throws Exception {
+                runTest("compiler/testData/codegen/boxInline/invokedynamic/sam/inlineLambda1.kt");
+            }
+        }
+    }
+
     @TestMetadata("compiler/testData/codegen/boxInline/jvmName")
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
