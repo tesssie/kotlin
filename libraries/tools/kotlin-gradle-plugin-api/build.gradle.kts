@@ -12,6 +12,7 @@ standardPublicJars()
 
 dependencies {
     compile(kotlinStdlib())
+    compileOnly(project(":native:kotlin-native-utils"))
 
     compileOnly(gradleApi())
     compileOnly("com.android.tools.build:gradle:0.4.2")
