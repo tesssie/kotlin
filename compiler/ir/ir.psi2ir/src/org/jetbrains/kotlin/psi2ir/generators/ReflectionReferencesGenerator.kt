@@ -159,7 +159,6 @@ class ReflectionReferencesGenerator(statementGenerator: StatementGenerator) : St
                 "Bound callable reference cannot have both receivers: $adapteeDescriptor"
             }
             val receiver = irDispatchReceiver ?: irExtensionReceiver
-            // TODO add a bound receiver property to IrFunctionExpressionImpl?
             val irAdapterRef = IrFunctionReferenceImpl(
                 startOffset, endOffset, irFunctionalType, irAdapterFun.symbol, irAdapterFun.typeParameters.size,
                 irAdapterFun.valueParameters.size, adapteeSymbol, IrStatementOrigin.ADAPTED_FUNCTION_REFERENCE
