@@ -15,6 +15,7 @@ val kotlinGradlePluginTest = project(":kotlin-gradle-plugin").sourceSets.getByNa
 
 dependencies {
     testCompile(project(":kotlin-gradle-plugin"))
+    testImplementation(project(":kotlin-tooling-metadata"))
     testCompile(kotlinGradlePluginTest.output)
     testCompile(project(":kotlin-gradle-subplugin-example"))
     testCompile(project(":kotlin-allopen"))
@@ -54,7 +55,9 @@ val shortenTempRootName = System.getProperty("os.name")!!.contains("Windows")
 val isTeamcityBuild = project.kotlinBuildProperties.isTeamcityBuild ||
         try {
             project.properties["gradle.integration.tests.split.tasks"]?.toString()?.toBoolean() ?: false
-        } catch (_: Exception) { false }
+        } catch (_: Exception) {
+            false
+        }
 
 fun Test.includeMppAndAndroid(include: Boolean) {
     if (isTeamcityBuild) {
@@ -194,7 +197,8 @@ tasks.withType<Test> {
         addTestListener(object : TestListener {
             override fun afterSuite(desc: TestDescriptor, result: TestResult) {
                 if (desc.parent == null) { // will match the outermost suite
-                    val output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                    val output =
+                        "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
                     val startItem = "|  "
                     val endItem = "  |"
                     val repeatLength = startItem.length + output.length + endItem.length
