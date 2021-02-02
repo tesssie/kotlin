@@ -82,6 +82,7 @@ class RemotelyMutedTests {
     }
 }
 
+/* Help to retrieve locally muted tests */
 class LocallyMutedTests {
     private val muteCommonTestKey = "COMMON"
     val tests = getMutedTestsFromDatabase()
